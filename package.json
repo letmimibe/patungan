@@ -1,0 +1,12 @@
+{
+  "name": "patungan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Patungan - AI powered restaurant bill splitting",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "devDependencies": {
+    "netlify-cli": "latest"
+  }
+}
