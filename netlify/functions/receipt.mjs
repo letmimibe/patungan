@@ -3,12 +3,8 @@ export const handler = async (event) => {
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          error: "Method not allowed",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Method not allowed" }),
       };
     }
 
@@ -17,12 +13,8 @@ export const handler = async (event) => {
     if (!image || !mimeType) {
       return {
         statusCode: 400,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          error: "Image is required",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Image is required" }),
       };
     }
 
@@ -31,12 +23,8 @@ export const handler = async (event) => {
     if (!apiKey) {
       return {
         statusCode: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          error: "GEMINI_API_KEY belum tersedia",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "GEMINI_API_KEY belum tersedia" }),
       };
     }
 
@@ -69,8 +57,9 @@ Rules:
 - Do not add explanations.
 `;
 
+    // Menggunakan model gemini-1.5-flash
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
         apiKey,
       {
         method: "POST",
@@ -106,24 +95,19 @@ Rules:
     if (!response.ok) {
       return {
         statusCode: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           error: data.error?.message || "Gemini API error",
         }),
       };
     }
 
-    const text =
-      data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
       return {
         statusCode: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           error: "Gemini tidak mengembalikan data",
         }),
@@ -134,17 +118,13 @@ Rules:
 
     return {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(result),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         error: error.message || "Terjadi error",
       }),
